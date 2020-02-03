@@ -1,40 +1,33 @@
 const body = document.querySelector("body");
 const pokemonList = document.getElementById("pokemon-list");
 
-// Function to make a request
-
 const loadPokemons = () => {
-    // GET request
     fetch('https://pokeapi.co/api/v2/pokemon/?limit=100')
 
-    // .then and .catch take a callback function (no semicolumns!!)
     .then(response => {
         console.log(response);
 
-        // response has to be converted into JSON with special function
-        const jsonPromise = response.json(); // this returns a promise
+        const jsonPromise = response.json();
         return jsonPromise;
     })
-    // get objects from the promise: data from the API; in the API it will be
-    // specified what the data are called (in this case 'results')
+
     .then((data) => {
-        data.results.forEach((pokeObj, i) => {
+        data.results.forEach((pokObj, i) => {
             const listItem = document.createElement('li');
-            const name = document.createTextNode(`${i + 1} ${pokeObj.name}`);
+            const name = document.createTextNode(`${i + 1}${pokObj.name}`);
 
             listItem.appendChild(name);
             pokemonList.appendChild(listItem);
 
-            // code for click to add image
             listItem.addEventListener('click', (event) => {
-                console.log(event.target);  //shows pokemon name when you click on it)
+                console.log(event.target);
                 selectPokemon(event.target);
             });
         });
     })
 
     .catch(err => {
-        console.log(err);
+        console.log("There has been an error", err);
     });
 };
 
@@ -42,7 +35,7 @@ const selectPokemon = listItem => {
     const imageOfSelected = document.getElementById('selected-image');
     const nameOfSelected = document.getElementById('name');
 
-    const pokemonIndex = Number.parseInt(listItem.innerHTML)
+    const pokemonIndex = Number.parseInt(listItem.innerHTML);
 
     nameOfSelected.innerHTML = listItem.innerHTML;
     nameOfSelected.style.visibility = 'visible';
