@@ -15,6 +15,7 @@ const loadPokemons = () => {
         const jsonPromise = response.json(); // this returns a promise
         return jsonPromise;
     })
+    // data is the outcome of the jsonPromise
     // get objects from the promise: data from the API; in the API it will be
     // specified what the data are called (in this case 'results')
     .then((data) => {

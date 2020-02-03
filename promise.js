@@ -1,34 +1,28 @@
 const body = document.querySelector("body");
 const pokemonList = document.getElementById("pokemon-list");
 
-const loadPokemons = () => {
-    fetch('https://pokeapi.co/api/v2/pokemon/?limit=100')
+const loadPokemons = async () => {
 
-    .then(response => {
-        console.log(response);
+    try {
+    const response = await fetch('https://pokeapi.co/api/v2/pokemon/?limit=100')
+    const data = await response.json();
 
-        const jsonPromise = response.json();
-        return jsonPromise;
-    })
+   
+    data.results.forEach((pokObj, i) => {
+        const listItem = document.createElement('li');
+        const name = document.createTextNode(`${i + 1}${pokObj.name}`);
 
-    .then((data) => {
-        data.results.forEach((pokObj, i) => {
-            const listItem = document.createElement('li');
-            const name = document.createTextNode(`${i + 1}${pokObj.name}`);
+        listItem.appendChild(name);
+        pokemonList.appendChild(listItem);
 
-            listItem.appendChild(name);
-            pokemonList.appendChild(listItem);
-
-            listItem.addEventListener('click', (event) => {
-                console.log(event.target);
-                selectPokemon(event.target);
-            });
+        listItem.addEventListener('click', (event) => {
+            selectPokemon(event.target);
         });
-    })
-
-    .catch(err => {
-        console.log("There has been an error", err);
     });
+    
+   }   catch (error) {
+            console.log("There has been an error", err);
+    }
 };
 
 const selectPokemon = listItem => {
