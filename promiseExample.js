@@ -15,8 +15,12 @@ const loadPokemons = () => {
         const jsonPromise = response.json(); // this returns a promise
         return jsonPromise;
     })
+    // get objects from the promise
     .then((data) => {
-        console.log(data)
+        data.results.forEach((pokeObj, i) => {
+            const listItem = document.createElement('li');
+            const name = document.createTextNode(`${i + 1} ${pokeObj.name}`)
+        });
     })
 
     .catch(() => {})
