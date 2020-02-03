@@ -15,15 +15,38 @@ const loadPokemons = () => {
         const jsonPromise = response.json(); // this returns a promise
         return jsonPromise;
     })
-    // get objects from the promise
+    // get objects from the promise: data from the API
     .then((data) => {
         data.results.forEach((pokeObj, i) => {
             const listItem = document.createElement('li');
-            const name = document.createTextNode(`${i + 1} ${pokeObj.name}`)
+            const name = document.createTextNode(`${i + 1} ${pokeObj.name}`);
+
+            listItem.appendChild(name);
+            pokemonList.appendChild(listItem);
+
+            // code for click to add image
+            listItem.addEventListener('click', (event) => {
+                console.log(event.target);  //shows pokemon name when you click on it)
+                selectPokemon(event.target);
+            });
         });
     })
 
-    .catch(() => {})
-}
+    .catch(err => {
+        console.log(err);
+    });
+};
+
+const selectPokemon = listItem => {
+    const imageOfSelected = document.getElementById('selected-image');
+    const nameOfSelected = document.getElementById('name');
+
+    const pokemonIndex = Number.parseInt(listItem.innerHTML)
+
+    nameOfSelected.innerHTML = listItem.innerHTML;
+    nameOfSelected.style.visibility = 'visible';
+
+    imageOfSelected.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonIndex}.png`
+};
 
 loadPokemons();
